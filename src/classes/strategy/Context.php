@@ -1,6 +1,6 @@
 <?php
 /**
- * iDataStrategy
+ * Context
  *
  * @description The Context defines the interface of interest to clients. It acts as single point of contact for client. 
  * @package Retention

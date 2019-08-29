@@ -1,6 +1,6 @@
 <?php
 /**
- * iDataStrategy
+ * CsvDataManager
  *
  * @description Concrete CsvDataManager implement the algorithm while following the base Strategy interface. 
  * The interface makes them interchangeable in the Context.
