@@ -2,7 +2,7 @@
 /**
  * iDataStrategy
  *
- * @description The Context defines the interface of interest to clients.
+ * @description The Context defines the interface of interest to clients. It acts as single point of contact for client. 
  * @package Retention
  * @author Giuseppe Maccario <g_maccario@hotmail.com>
  * @version 1.0
