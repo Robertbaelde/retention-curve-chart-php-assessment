@@ -1,7 +1,8 @@
 {
 	"autoload" : {
 		"psr-4" : {
-			"Entities\\" : "src/classes/"
+			"Entities\\" : "src/classes/entities/",
+			"Strategy\\" : "src/classes/strategy/"
 		}
 	},
 	"require-dev" : {

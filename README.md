@@ -11,3 +11,7 @@ Via Composer:
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/RetentionDayTest
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/RetentionWeekTest.php
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/RetentionWeeksTest.php
+
+* ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/CsvDataManagerTest.php
+* ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/DbDataManagerTest.php
+* ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ContextTest.php
