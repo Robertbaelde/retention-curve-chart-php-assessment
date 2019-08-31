@@ -3,7 +3,8 @@
 		"psr-4" : {
 			"Entities\\" : "src/classes/entities/",
 			"Strategy\\" : "src/classes/strategy/",
-			"Services\\" : "src/classes/services/"
+			"Services\\" : "src/classes/services/",
+			"Sorters\\" : "src/classes/sorters/"
 		}
 	},
 	"require-dev" : {
