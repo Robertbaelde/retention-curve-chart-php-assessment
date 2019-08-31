@@ -11,14 +11,6 @@
 
 namespace Services;
 
-/*
- * 
- * 
- * Crrare una superclasse ed esterderla al retention context e implementare dentro la classe estesa il solo metodo specifico
- * 
- * 
- */
-
 class Rest
 {
     /**
