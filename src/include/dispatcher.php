@@ -1,10 +1,85 @@
 <?php 
 
+
+
 /*
  * 
  * @todo First test manage data
  * 
  * */
+
+//use Services\Rest;
+use Services\RestRetentionCurve;
+
+
+$endpoint = '/private-api/get/retention-curve/weekly-cohorts';
+//$endpoint = '/private-api/get/unaltracosa/nonso';
+$data = ['foo' => true, 'pluto' => 'far'];
+
+
+/*
+$args = ['get', 'retention-curve', 'weekly-cohorts'];
+
+var_dump($args);
+
+$args = array_map (function($arg){ 
+    return str_replace(' ', '', trim(ucwords(strtolower(str_replace('-', ' ', $arg))))); 
+    }, $args
+);
+
+echo join('', $args);
+
+    var_dump($args);
+
+die();*/
+
+
+//$API = new Rest($endpoint);
+$API = new RestRetentionCurve($endpoint);
+
+//print_r( $API->__get('args'));
+
+echo $API->processAPI($data);
+
+
+die();
+
+
+
+
+
+
+
+$e = trim(strip_tags($e));
+
+//print_r($e);
+
+$arrArgs = explode('/', rtrim($e, '/'));
+
+array_shift($arrArgs);
+
+print_r($arrArgs);
+
+//echo explode('/', rtrim($e, '/'))[2];
+
+//print_r(explode('/', rtrim($_SERVER['REQUEST_URI'], '/')));
+
+//$this->endpoint = array_shift($this->args);
+
+/*
+echo "<pre>";
+print_r($_REQUEST);
+echo "</pre>";
+echo "<pre>";
+print_r($_SERVER);
+echo "</pre>";
+echo "<pre>";
+print_r($_SERVER['REQUEST_URI']); // /foo/process/1
+echo "</pre>";
+*/
+//print_r(explode('/', rtrim('http://temper.localhost/foo/par/1', '/')));
+//$clean_input = trim(strip_tags($data));
+die();
 
 
 use \Entities\RetentionOnboarding;

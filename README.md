@@ -15,3 +15,11 @@ Via Composer:
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/CsvDataManagerTest.php
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/DbDataManagerTest.php
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ContextTest.php
+
+* ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/RestTest.php
+
+
+## Endpoints
+* /private-api/get/retention-curve/weekly-cohorts
+
+Error message in case of wrong endpoint.
