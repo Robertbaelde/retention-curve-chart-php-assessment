@@ -31,7 +31,7 @@ class RestRetentionCurve extends Rest
      * @author G.Maccario <g_maccario@hotmail.com>
      * @return array
      */
-    public function getRetentionCurveWeeklyCohorts(array $data)  : array
+    public function getRetentionCurveWeeklyCohorts(array $data) : array
     {        
         return $data;
     }
