@@ -9,7 +9,87 @@
  * */
 
 //use Services\Rest;
+
 use Services\RestRetentionCurve;
+use Strategy\CsvDataManager;
+use Sorters\SorterRetentionCurve;
+
+
+
+$endpoint = '/private-api/get-retention-curve-weekly-cohorts';
+
+$csvDataManager = new CsvDataManager();
+$csvDataManager->setConnection(array(
+    'filename' => 'data/export.csv',
+    'delimiter' => ';'
+));
+
+$resultSet = $csvDataManager->select(array('SELECT * FROM Onboarding'));
+
+$sorter = new SorterRetentionCurve();
+$sorter->process($resultSet);
+$retentionWeeks = $sorter->getData();
+
+/*
+$arr = (array)$retentionWeeks;
+
+echo json_encode($arr);
+die();*/
+
+echo "<pre>";
+print_r((array)$retentionWeeks);
+echo "</pre>";
+die();
+
+
+$data = json_decode(json_encode((array)$retentionWeeks), true);
+
+echo "<pre>";
+print_r($data);
+echo "</pre>";
+
+die();
+
+
+
+// ================================================================================
+$csvDataManager = new CsvDataManager();
+$csvDataManager->setConnection(array(
+    'filename' => 'data/export.csv',
+    'delimiter' => ';'
+));
+
+$resultSet = $csvDataManager->select(array('SELECT * FROM Onboarding'));
+
+/*echo "<pre>";
+print_r($resultSet);
+echo "</pre>";*/
+
+$sorter = new SorterRetentionCurve();
+$sorter->process($resultSet);
+$data = $sorter->getData();
+
+
+echo "<pre>";
+print_r($data);
+echo "</pre>";
+
+die();
+
+// ================================================
+/*
+$csvDataManager = new CsvDataManager();
+$csvDataManager->setConnection(array(
+    'filename' => 'data/export.csv',
+    'delimiter' => ';'
+));
+
+$resultSet = $csvDataManager->select(array('SELECT * FROM Onboarding'));
+
+var_dump($resultSet);
+*/
+// ================================================
+
 
 
 $endpoint = '/private-api/get/retention-curve/weekly-cohorts';

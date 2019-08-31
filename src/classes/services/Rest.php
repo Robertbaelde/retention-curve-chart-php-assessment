@@ -11,6 +11,13 @@
 
 namespace Services;
 
+/**
+ * @name Rest
+ * @description
+ *
+ * @author G.Maccario <g_maccario@hotmail.com>
+ * @return
+ */
 class Rest
 {
     /**

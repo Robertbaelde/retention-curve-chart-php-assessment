@@ -17,6 +17,7 @@ Via Composer:
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ContextTest.php
 
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/RestTest.php
+* ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/SorterRetentionCurveTest.php
 
 
 ## Endpoints
