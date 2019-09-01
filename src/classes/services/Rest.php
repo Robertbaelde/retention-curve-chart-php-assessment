@@ -50,7 +50,7 @@ class Rest
      * @property string $classMethodToCall
      *
      */
-    protected $classMethodToCall = 'GET';
+    protected $classMethodToCall = '';
     
     /**
      * @name __construct
