@@ -19,6 +19,19 @@ class CsvDataManager implements iDataStrategy
     private $header = null;
     
     /**
+     * @name __construct
+     *
+     * @param array $params
+     *
+     * @author G.Maccario <g_maccario@hotmail.com>
+     * @return
+     */
+    public function __construct(array $params)
+    {
+        $this->setConnection($params);
+    }
+    
+    /**
      * @name getFilename
      *
      *

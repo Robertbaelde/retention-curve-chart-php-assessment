@@ -50,6 +50,19 @@ class Context
     }
 
     /**
+     * @name setConnection
+     *
+     * @param array $params
+     *
+     * @author G.Maccario <g_maccario@hotmail.com>
+     * @return void
+     */
+    public function setConnection(array $params): void
+    {
+        $this->strategy->setConnection($params);
+    }
+    
+    /**
      * @name getData
      * @desc The Context delegates some work to the Strategy object instead of 
      * implementing multiple versions of the algorithm on its own.
@@ -61,12 +74,6 @@ class Context
      */
     public function getData(array $params): array
     {
-        // ...
-        
-       // echo "Context: Sorting data using the strategy (not sure how it'll do it)\n";
         return $this->strategy->select($params);
-        //echo implode(",", $result) . "\n";
-        
-        // ...
     }
 }
