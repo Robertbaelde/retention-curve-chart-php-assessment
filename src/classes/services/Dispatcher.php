@@ -42,7 +42,7 @@ class Dispatcher
             
             /**
              *
-             *  @todo Auth (AppID and DevID)
+             *  @todo Auth Not Implemented
              *
              */
 
