@@ -26,9 +26,6 @@ function init()
     /* PSR-4: Autoloader - PHP-FIG */
     require __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
     
-    /* Include the controller */
-    //require __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'dispatcher.php';
-    
     $dispatcher = new Dispatcher();
     $dispatcher->dispatch();
 }
