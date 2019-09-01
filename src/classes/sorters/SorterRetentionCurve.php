@@ -64,14 +64,21 @@ class SorterRetentionCurve implements iSorter
         $retentionDay = new RetentionDay();
         $retentionWeek = new RetentionWeek();
         
-        foreach ($data as $combined) {
+        $len = count($data) - 1;
+        
+        for ($i = 0; $i <= $len; $i++) {
+            
+            $combined = $data[$i];
             
             $user_id = $combined['user_id'];
             $onboarding_perentage = $combined['onboarding_perentage'];
             $currentDate = $combined['created_at'];
             
+            /**
+             * First loop OR same date
+             */
             if (!$compareDate || $compareDate == $currentDate) {
-    
+
                 if (!$retentionDay->getCreatedAt()) {
     
                     $retentionDay->setCreatedAt($currentDate);
@@ -89,23 +96,37 @@ class SorterRetentionCurve implements iSorter
                     $startDate = $currentDate;
                     $compareDate = $currentDate;
                 }
+                
+                /**
+                 * Finisch the days without a complete week
+                 */
+                if($i == $len){
+
+                    $retentionWeek->addDay($retentionDay);
+                    
+                    $this->retentionWeeks->addWeek($retentionWeek);
+                    
+                    break;
+                }
             } else {
                 
+                /**
+                 * Change day between lines
+                 */
                 $startDateTime = new \DateTime($startDate);
                 $currentDatetime = new \DateTime($currentDate);
                 
                 $isAWeek = ($startDateTime->diff($currentDatetime)->format('%a') % 7 == 0);
 
+                /**
+                 * is a week or just some days?
+                 */
                 if ($isAWeek) {
                     
                     $this->retentionWeeks->addWeek($retentionWeek);
                     
                     $retentionWeek = new RetentionWeek();
                 } else {
-                    
-                    /*
-                     * @todo fix bug on last days!!!
-                     * */  
                     
                     $retentionWeek->addDay($retentionDay);
                 }

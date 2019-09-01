@@ -9,7 +9,10 @@ Author URI:
 License: GPL2
 */
 
+use \Services\Dispatcher;
+
 define( 'RTT_ENV', 'dev' );
+define( 'MAIN_DIR', __DIR__ );
 
 if( RTT_ENV == 'dev' )
 {
@@ -18,16 +21,19 @@ if( RTT_ENV == 'dev' )
 	error_reporting(E_ALL);
 }
 
-function retentionInit()
+function init()
 {
     /* PSR-4: Autoloader - PHP-FIG */
     require __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
     
     /* Include the controller */
-    require __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'dispatcher.php';
+    //require __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'dispatcher.php';
+    
+    $dispatcher = new Dispatcher();
+    $dispatcher->dispatch();
 }
 
 /*
  * GO!
  */
-retentionInit();
+init();
