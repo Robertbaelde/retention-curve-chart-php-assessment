@@ -21,6 +21,19 @@ class DbDataManager implements iDataStrategy
     private $password = '';
     
     /**
+     * @name __construct
+     *
+     * @param array $params
+     *
+     * @author G.Maccario <g_maccario@hotmail.com>
+     * @return
+     */
+    public function __construct(array $params)
+    {
+        $this->setConnection($params);
+    }
+    
+    /**
      * @name getHost
      *
      *

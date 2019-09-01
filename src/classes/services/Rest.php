@@ -64,26 +64,24 @@ class Rest
     {        
         $this->endpoint = $this->sanitizeInputs($endpoint);
 
-        $args = explode('/', rtrim($this->endpoint, '/'));
-        array_shift($args);
-        array_shift($args);
-
-        $this->args = $args;
+        $this->args = $this->setArgs();
+        
+        $this->classMethodToCall = $this->convertEndpointInMethodName($this->args);
     }
     
     /**
      * @name processAPI
      *
-     * @param string $request
+     * @param string $params
      *
      * @author G.Maccario <g_maccario@hotmail.com>
      * @return string
      */
-    public function processAPI(array $data) : string
+    public function processAPI(array $params) : string
     {
-        if ($this->isValidCall) {
+        if ($this->isValidCall()) {
 
-            return $this->sendResponse($this->{$this->classMethodToCall}($data));
+            return $this->sendResponse($this->{$this->classMethodToCall}($params));
         }
         
         return $this->sendResponse(array("message-error" => "No Endpoint " . $this->endpoint), 404);
@@ -96,9 +94,7 @@ class Rest
      * @return bool
      */
     public function isValidCall() : bool
-    {
-        $this->classMethodToCall = $this->convertEndpointInMethodName($this->args);
-        
+    {        
         if (method_exists($this, $this->classMethodToCall)) {
             
             $this->isValidCall = true;
@@ -178,5 +174,25 @@ class Rest
         );
         
         return ($status[$code])?$status[$code]:$status[500];
+    }
+    
+    /**
+     * @name setArgs
+     *
+     * @author G.Maccario <g_maccario@hotmail.com>
+     * @return array
+     */
+    private function setArgs() : array
+    {
+        $args = array();
+        
+        if ($this->endpoint) {
+            
+            $args = explode('/', rtrim($this->endpoint, '/'));
+            array_shift($args);
+            array_shift($args);
+        }
+        
+        return $args;
     }
 }
