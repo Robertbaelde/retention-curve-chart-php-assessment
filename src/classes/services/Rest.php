@@ -69,13 +69,6 @@ class Rest
         array_shift($args);
 
         $this->args = $args;
-        
-        $this->classMethodToCall = $this->convertEndpointInMethodName($this->args);
-        
-        if (method_exists($this, $this->classMethodToCall)) {
-            
-            $this->isValidCall = true;
-        }
     }
     
     /**
@@ -104,6 +97,13 @@ class Rest
      */
     public function isValidCall() : bool
     {
+        $this->classMethodToCall = $this->convertEndpointInMethodName($this->args);
+        
+        if (method_exists($this, $this->classMethodToCall)) {
+            
+            $this->isValidCall = true;
+        }
+        
         return $this->isValidCall;
     }
     
