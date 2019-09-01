@@ -42,10 +42,10 @@ class Dispatcher
             
             /**
              *
-             *  @todo Auth Not Implemented
+             *  @todo Auth (API Keys) - Not Integrated
              *
              */
-
+            
             $rest = new RestRetentionCurve($endpoint);
             echo $rest->processAPI(array(
                 'filename' => 'data/export.csv',
