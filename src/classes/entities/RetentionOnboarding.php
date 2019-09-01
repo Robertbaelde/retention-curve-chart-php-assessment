@@ -22,8 +22,8 @@ if(!class_exists('RetentionOnboarding'))
      */
     class RetentionOnboarding
     {   
-        protected $userId = 0;
-        protected $percentage = 0;
+        public $userId = 0;
+        public $percentage = 0;
         
         /**
          * @name __construct

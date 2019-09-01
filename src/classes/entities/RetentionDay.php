@@ -22,8 +22,8 @@ if(!class_exists('RetentionDay'))
      */
     class RetentionDay
     {   
-        protected $createdAt = null;
-        protected $onboardings = array();
+        public $createdAt = null;
+        public $onboardings = array();
         
         /**
          * @name __construct

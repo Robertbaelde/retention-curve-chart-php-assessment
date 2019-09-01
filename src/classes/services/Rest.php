@@ -21,24 +21,36 @@ namespace Services;
 class Rest
 {
     /**
-     * @property string method 
-     * (onlyl get iomplemented)
+     * @property bool $isValidCall
+     *
+     */
+    protected $isValidCall = false;
+    
+    /**
+     * @property string $method 
+     * (onlyl GET implemented)
      * 
      */
     protected $method = 'GET';
     
     /**
-     * @property string endpoint 
+     * @property string $endpoint 
      * (eg: /foo/process/1)
      * 
      */
     protected $endpoint = '';
 
     /**
-     * @property array args
+     * @property array $args
      * 
      */
     protected $args = array();
+    
+    /**
+     * @property string $classMethodToCall
+     *
+     */
+    protected $classMethodToCall = 'GET';
     
     /**
      * @name __construct
@@ -57,6 +69,13 @@ class Rest
         array_shift($args);
 
         $this->args = $args;
+        
+        $this->classMethodToCall = $this->convertEndpointInMethodName($this->args);
+        
+        if (method_exists($this, $this->classMethodToCall)) {
+            
+            $this->isValidCall = true;
+        }
     }
     
     /**
@@ -69,14 +88,23 @@ class Rest
      */
     public function processAPI(array $data) : string
     {
-        $methodToCall = $this->convertEndpointInMethodName($this->args);
+        if ($this->isValidCall) {
 
-        if (method_exists($this, $methodToCall)) {
-
-            return $this->sendResponse($this->{$methodToCall}($data));
+            return $this->sendResponse($this->{$this->classMethodToCall}($data));
         }
         
         return $this->sendResponse(array("message-error" => "No Endpoint " . $this->endpoint), 404);
+    }
+    
+    /**
+     * @name processAPI
+     *
+     * @author G.Maccario <g_maccario@hotmail.com>
+     * @return bool
+     */
+    public function isValidCall() : bool
+    {
+        return $this->isValidCall;
     }
     
     /**

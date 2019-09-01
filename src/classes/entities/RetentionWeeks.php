@@ -22,7 +22,7 @@ if(!class_exists('RetentionWeeks'))
      */
     class RetentionWeeks
     {   
-        protected $weeks = array();
+        public $weeks = array();
         
         /**
          * @name __construct
