@@ -13,7 +13,7 @@ namespace Services;
 
 use Strategy\Context;
 use Strategy\CsvDataManager;
-use Sorters\SorterRetentionCurve;
+use Sorters\SorterWeeklyRetentionCurve;
 
 /**
  * RestRetentionCurve
@@ -43,7 +43,7 @@ class RestRetentionCurve extends Rest
         $data = $context->getData(array('SELECT * FROM Onboarding'));
         
         /* Specific sorting */
-        $sorter = new SorterRetentionCurve();
+        $sorter = new SorterWeeklyRetentionCurve();
         $sorter->process($data);
         
         return (array)$sorter->getData();
