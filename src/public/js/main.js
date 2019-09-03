@@ -52,30 +52,34 @@ const WeeklyCohortTable = Vue.component('weekly-cohort-table',{
 		
 	},
 	template:`  	
-  		<div class="wrapper table">
+  		<div class="col-sm-6 table">
   			
-		  	<table>
-			    <thead>
-			        <tr>
-			            <th scope="col">
-			            	<span>Cohort</span>
-			            </th>
-			            <th scope="col" v-for="step in onboardingSteps.keys()" v-if="onboardingSteps[step] === 0">
-			            	<span>{{ step }}%</span>
-			            </th>
-			        </tr>
-			    </thead>
-			    <tbody>
-			        <tr v-for="(row, index) in dataSet">
-			            <th scope="row">
-			            	<span>{{ labels[index] }}</span>
-			            </th>
-			            <td v-for="cell in row">
-			            	<span>{{ cell }}%</span>
-			            </td>
-			        </tr>
-			    </tbody>
-			</table>
+  			<p>Weekly cohort table</p>
+  			
+  			<div class="table-responsive">
+			  	<table>
+				    <thead class="thead-dark">
+				        <tr>
+				            <th scope="col">
+				            	<span>Cohort</span>
+				            </th>
+				            <th scope="col" v-for="step in onboardingSteps.keys()" v-if="onboardingSteps[step] === 0">
+				            	<span>{{ step }}%</span>
+				            </th>
+				        </tr>
+				    </thead>
+				    <tbody>
+				        <tr v-for="(row, index) in dataSet">
+				            <th scope="row">
+				            	<span>{{ labels[index] }}</span>
+				            </th>
+				            <td v-for="cell in row">
+				            	<span>{{ cell }}%</span>
+				            </td>
+				        </tr>
+				    </tbody>
+				</table>
+			</div>
   		</div>`
 });
 
@@ -132,15 +136,43 @@ const WeeklyCohortChart = Vue.component('weekly-cohort-chart',{
 		getDataSet() {
 			let where = '/private-api/get-retention-curve-weekly-cohorts';
 
-			axios.get(where, new URLSearchParams()).then((response) => {
+			axios.get(where, {
+			    params: {
+			    	token: this.getTokenFromCookies()
+			    }
+			}).then((response) => {
 
 				this.dataset = response.data.weeks;
 			});
 		},
+		
+		/**
+    	 * @name getTokenFromCookies
+    	 * @description 
+    	 */
+		getTokenFromCookies(){
+			
+			let arr_cookie_token = document.cookie.split(';').map(function callback(currentValue) {
+				  let parts = currentValue.split('='); 
+				  	if(parts[0] == 'token'){
+				  		return parts[1]; 
+				  	}
+			});
+			
+			let cookie_token = '';
+			if(arr_cookie_token.length > 0){
+				  cookie_token = arr_cookie_token[0];  
+			}
+			if(!cookie_token){
+				cookie_token = jQuery('form[name="main_form"] input[name="token"]').val();
+			}
+			
+			return cookie_token;
+		},
 
 		/**
     	 * @name convertDataForCharts
-    	 * @description 
+    	 * @description Aggregation data from daily result to weekly
     	 */
 		convertDataSetForWeeklyWeeklyCohortChart() { 
 			
@@ -166,10 +198,6 @@ const WeeklyCohortChart = Vue.component('weekly-cohort-chart',{
 					}
 				}
 				
-				/**
-				 * @todo Need a double check
-				 * 
-				 * */
 				let tot_per_week = 0;
 				onboardingPerWeek.map(onboarding => tot_per_week = tot_per_week + onboarding );
 				
@@ -188,7 +216,7 @@ const WeeklyCohortChart = Vue.component('weekly-cohort-chart',{
 		drawChart() {
 			
 			let parsedDatasetWeeklyAggregate = JSON.parse(JSON.stringify(this.datasetWeeklyAggregate))
-			console.log("parsedDatasetWeeklyAggregate", parsedDatasetWeeklyAggregate);
+			//console.log("parsedDatasetWeeklyAggregate", parsedDatasetWeeklyAggregate);
 			
 			/* Lets use 'this' (vue obj) inside map function */
 			let self = this;
@@ -290,8 +318,8 @@ const WeeklyCohortChart = Vue.component('weekly-cohort-chart',{
 		}
 	},
   	template:`  	
-  		<div class="wrapper chart-and-table">
-  			<div class="wrapper chart">
+  		<div class="row chart-and-table">
+  			<div class="col-sm-6 chart">
   				<canvas id="line-chart" width="800" height="450"></canvas>
   			</div>
   			<weekly-cohort-table :dataSet="datasetWeeklyAggregate" :labels="labelsStartDateWeek" :onboardingSteps="onboardingSteps"></weekly-cohort-table>
@@ -308,13 +336,22 @@ const vm = new Vue({
     components: {
         'weekly-cohort-chart': WeeklyCohortChart
     },
-    data: {
-    	
-    },
+    data(){
+		return {
+			/* @todo Implement real case */
+			token: "eyJ0eXAiOiJQVFMiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiUU4zTUxQSk9KVkdQMlpOT0FTS0tHQUdIRUNSSFVETklSSzJDSTFGVVVMS1NJS04xIn0.QYRr8HzguAsK7XDOobd9i6_4aPluKYKMWZMX-GjyeKQ"
+		}
+	},
     created(){
-		
+    	this.setAuthCookie();
 	},
     methods: {
-
+    	setAuthCookie(){
+    		/**
+             * @note Save a cookie and use it instead of the input value. 
+             * @todo Set expires=Mon, 03 May 2021 20:47:11 UTC; 
+             */    		
+       		document.cookie = `token=${this.token}; path=/`;
+    	}
 	}
 });

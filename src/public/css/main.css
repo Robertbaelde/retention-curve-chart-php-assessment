@@ -1,4 +1,3 @@
-#app .chart-and-table{ width: 780px; }
-#app .chart-and-table .charts #line-chart{ width: 100%; }
+h1, h2, p, span, a{ font-family: 'Roboto', sans-serif; }
 
-footer{ border-top: 1px solid #c0c0c0; margin-top: 1em; }
+footer{ border-top: 1px solid #04595E; margin-top: 1em; }

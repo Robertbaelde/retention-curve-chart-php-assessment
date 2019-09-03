@@ -23,42 +23,75 @@ class Auth{
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct() 
+    {
         
     }
     
     /**
+     * @name __construct
+     * @description
+     * 
+     * @param string $dev_id
      *
-     * SetDevId
+     * @return void
      */
-    public function setDevId($dev_id) {
+    public function setDevId(string $dev_id) : void
+    {
         
         $this->dev_id = $dev_id;
     }
     
     /**
+     * @name setAppId
+     * @description
+     * 
+     * @param string $app_id
      *
-     * SetAppId
+     * @return void
      */
-    public function setAppId($app_id) {
+    public function setAppId(string $app_id)  : void
+    {
         
         $this->app_id = $app_id;
     }
     
     /**
+     * @name setToken
+     * @description
+     * 
+     * @param ?string $token
      *
-     * SetToken
+     * @return void
      */
-    public function setToken($token) {
+    public function setToken(?string $token)  : void
+    {
         
         $this->token = $token;
     }
     
     /**
+     * @name getToken
+     * @description
      *
-     * Validation app and dev ids
+     * @return string
      */
-    public function isValidConfig($dev_id, $app_id){
+    public function getToken() : string 
+    {
+        return $this->token;
+    }
+
+    /**
+     * @name isValidConfig
+     * @description Validation app and dev ids
+     * 
+     * @param string $dev_id
+     * @param string $app_id
+     *
+     * @return bool
+     */
+    public function isValidConfig(string $dev_id, string $app_id) : bool
+    {
         
         /**
          * @note Check on db in real case
@@ -69,17 +102,20 @@ class Auth{
         if($this->dev_id != $dev_id || $this->app_id != $app_id){
             return false;
         }
+        
         return true;
     }
     
     /**
+     * @name isActiveToken
      *
-     * Validation token
+     * @return bool
      */
-    public function isActiveToken(){
+    public function isActiveToken() : bool
+    {
         
         /**
-         * @note Check on your db if token is active. This is a demo then the empty check it's enough.
+         * @note Not implemented. Check on your db if token is active. This is a demo then the empty check it's enough.
          */
         if(empty($this->token)){
             return false;
@@ -89,10 +125,12 @@ class Auth{
     }
     
     /**
+     * @name generateSignature
+     * @description Generates the signature
      *
-     * Generates the signature
+     * @return string
      */
-    public function generateSignature()
+    public function generateSignature() : string
     {
         /**
          * Token = Header.Payload.Signature

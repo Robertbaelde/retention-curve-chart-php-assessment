@@ -37,15 +37,18 @@ class RestRetentionCurve extends Rest
      */
     public function getRetentionCurveWeeklyCohorts(array $params) : array
     {
-        /* Data Context */
-        $context = new Context(new CsvDataManager($params));
-        
-        $data = $context->getData(array('SELECT * FROM Onboarding'));
-        
-        /* Specific sorting */
-        $sorter = new SorterWeeklyRetentionCurve();
-        $sorter->process($data);
-        
-        return (array)$sorter->getData();
+        if($this->isValidCall() && $this->auth->isActiveToken()) {
+            
+            /* Data Context */
+            $context = new Context(new CsvDataManager($params));
+            
+            $data = $context->getData(array('SELECT * FROM Onboarding'));
+            
+            /* Specific sorting */
+            $sorter = new SorterWeeklyRetentionCurve();
+            $sorter->process($data);
+            
+            return (array)$sorter->getData();
+        }
     }
 }

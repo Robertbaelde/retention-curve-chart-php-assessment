@@ -12,7 +12,6 @@ License: GPL2
 use \Services\Dispatcher;
 
 define( 'RTT_ENV', 'dev' );
-define( 'MAIN_DIR', __DIR__ );
 
 if( RTT_ENV == 'dev' )
 {
@@ -27,7 +26,7 @@ function init()
     require __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
     
     $dispatcher = new Dispatcher();
-    $dispatcher->dispatch();
+    $dispatcher->dispatch(__DIR__);
 }
 
 /*
