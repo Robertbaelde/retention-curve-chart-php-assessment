@@ -172,7 +172,7 @@ const WeeklyCohortChart = Vue.component('weekly-cohort-chart',{
 
 		/**
     	 * @name convertDataForCharts
-    	 * @description 
+    	 * @description Aggregation data from daily result to weekly
     	 */
 		convertDataSetForWeeklyWeeklyCohortChart() { 
 			
@@ -198,10 +198,6 @@ const WeeklyCohortChart = Vue.component('weekly-cohort-chart',{
 					}
 				}
 				
-				/**
-				 * @todo Need a double check
-				 * 
-				 * */
 				let tot_per_week = 0;
 				onboardingPerWeek.map(onboarding => tot_per_week = tot_per_week + onboarding );
 				
