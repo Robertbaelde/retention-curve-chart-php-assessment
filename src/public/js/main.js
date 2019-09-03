@@ -342,6 +342,7 @@ const vm = new Vue({
     },
     data(){
 		return {
+			/* @todo Implement real case */
 			token: "eyJ0eXAiOiJQVFMiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiUU4zTUxQSk9KVkdQMlpOT0FTS0tHQUdIRUNSSFVETklSSzJDSTFGVVVMS1NJS04xIn0.QYRr8HzguAsK7XDOobd9i6_4aPluKYKMWZMX-GjyeKQ"
 		}
 	},
