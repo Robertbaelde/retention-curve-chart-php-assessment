@@ -1,6 +1,6 @@
 <?php
 /**
- * SorterRetentionCurve
+ * SorterWeeklyRetentionCurve
  *
  * @description 
  * @package Retention
@@ -17,13 +17,13 @@ use Entities\RetentionWeeks;
 use Entities\RetentionOnboarding;
 
 /**
- * @name SorterRetentionCurve
+ * @name SorterWeeklyRetentionCurve
  * @description 
  *
  * @author G.Maccario <g_maccario@hotmail.com>
  * @return
  */
-class SorterRetentionCurve implements iSorter
+class SorterWeeklyRetentionCurve implements iSorter
 { 
     protected $retentionWeeks = null;
     
