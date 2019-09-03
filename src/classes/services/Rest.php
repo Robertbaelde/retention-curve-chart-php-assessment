@@ -21,6 +21,12 @@ namespace Services;
 class Rest
 {
     /**
+     * @property Auth $auth
+     *
+     */
+    protected $auth = null;
+    
+    /**
      * @property bool $isValidCall
      *
      */
@@ -55,13 +61,16 @@ class Rest
     /**
      * @name __construct
      *
+     * @partam Auth $auth
      * @param string $endpoint
      *
      * @author G.Maccario <g_maccario@hotmail.com>
      * @return
      */
-    public function __construct(string $endpoint)
-    {        
+    public function __construct(Auth $auth, string $endpoint)
+    {
+        $this->auth = $auth;
+        
         $this->endpoint = $this->sanitizeInputs($endpoint);
 
         $this->args = $this->setArgs();
@@ -79,6 +88,11 @@ class Rest
      */
     public function processAPI(array $params) : string
     {
+        if(!$this->auth->isActiveToken()) {
+            
+            return $this->sendResponse(array("message-error" => "401 Unauthorized " . $this->endpoint), 401);
+        }
+        
         if ($this->isValidCall()) {
 
             return $this->sendResponse($this->{$this->classMethodToCall}($params));
@@ -168,6 +182,7 @@ class Rest
     {
         $status = array(
             200 => 'OK',
+            401 => 'Unauthorized',
             404 => 'Not Found',
             405 => 'Method Not Allowed',
             500 => 'Internal Server Error',
