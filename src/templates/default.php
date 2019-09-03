@@ -28,7 +28,7 @@
             		<p>Retention curve chart that shows how far a group of users (weekly cohorts) has progressed through the Onboarding Flow.</p>
             		
                 	<div id="app">
-                		<cohort-chart></cohort-chart>
+                		<weekly-cohort-chart></weekly-cohort-chart>
                 	</div>
                 </div>
             </div>

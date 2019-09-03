@@ -1,4 +1,4 @@
-#app .charts{ width: 780px; }
-#app .charts #line-chart{ width: 100%; }
+#app .chart-and-table{ width: 780px; }
+#app .chart-and-table .charts #line-chart{ width: 100%; }
 
 footer{ border-top: 1px solid #c0c0c0; margin-top: 1em; }

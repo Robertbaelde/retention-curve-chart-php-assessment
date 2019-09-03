@@ -14,9 +14,9 @@ const EventBus = new Vue();
  */
 
 /**
- * CohortTable
+ * WeeklyCohortTable
  */
-const CohortTable = Vue.component('cohort-table',{
+const WeeklyCohortTable = Vue.component('weekly-cohort-table',{
 	components: {
 		
 	},
@@ -29,17 +29,21 @@ const CohortTable = Vue.component('cohort-table',{
 			type: Array,
 			required: true
 		},
+		onboardingSteps: {
+			type: Array,
+			required: true
+		},
 	},
 	data(){
 		return {
-			
+			steps: []
 		}
 	},
 	created() {
 		
 	},
 	mounted() {
-		console.log(this.dataSet);
+		
 	},
 	watch: {
 		
@@ -49,17 +53,38 @@ const CohortTable = Vue.component('cohort-table',{
 	},
 	template:`  	
   		<div class="wrapper table">
-  			{{ labels }}
-		  	{{ dataSet }}
+  			
+		  	<table>
+			    <thead>
+			        <tr>
+			            <th scope="col">
+			            	<span>Cohort</span>
+			            </th>
+			            <th scope="col" v-for="step in onboardingSteps.keys()" v-if="onboardingSteps[step] === 0">
+			            	<span>{{ step }}%</span>
+			            </th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			        <tr v-for="(row, index) in dataSet">
+			            <th scope="row">
+			            	<span>{{ labels[index] }}</span>
+			            </th>
+			            <td v-for="cell in row">
+			            	<span>{{ cell }}%</span>
+			            </td>
+			        </tr>
+			    </tbody>
+			</table>
   		</div>`
 });
 
 /**
- * CohortChart
+ * WeeklyCohortChart
  */
-const CohortChart = Vue.component('cohort-chart',{
+const WeeklyCohortChart = Vue.component('weekly-cohort-chart',{
 	components: {
-		'cohort-table': CohortTable
+		'weekly-cohort-table': WeeklyCohortTable
 	},
 	props: {
 		
@@ -69,12 +94,14 @@ const CohortChart = Vue.component('cohort-chart',{
 			dataset: [],
 			datasetWeeklyAggregate: [],		
 			labelsStartDateWeek: [],
+			onboardingSteps: [],
 		}
 	},
 	created() {
 		
 		this.init();
 		
+		this.onboardingSteps = this.getOnBoardingSteps();
 	},
 	mounted() {
 		
@@ -82,7 +109,7 @@ const CohortChart = Vue.component('cohort-chart',{
 	watch: {
 		dataset: function (val) {
 
-			this.convertDataSetForWeeklyCohortChart();
+			this.convertDataSetForWeeklyWeeklyCohortChart();
 
 			this.displayDataSet();
 		}
@@ -115,7 +142,7 @@ const CohortChart = Vue.component('cohort-chart',{
     	 * @name convertDataForCharts
     	 * @description 
     	 */
-		convertDataSetForWeeklyCohortChart() { 
+		convertDataSetForWeeklyWeeklyCohortChart() { 
 			
 			for (const week of this.dataset) {
 				
@@ -160,7 +187,7 @@ const CohortChart = Vue.component('cohort-chart',{
     	 */
 		drawChart() {
 			
-			var parsedDatasetWeeklyAggregate = JSON.parse(JSON.stringify(this.datasetWeeklyAggregate))
+			let parsedDatasetWeeklyAggregate = JSON.parse(JSON.stringify(this.datasetWeeklyAggregate))
 			console.log("parsedDatasetWeeklyAggregate", parsedDatasetWeeklyAggregate);
 			
 			/* Lets use 'this' (vue obj) inside map function */
@@ -169,10 +196,10 @@ const CohortChart = Vue.component('cohort-chart',{
 			new Chart(document.getElementById("line-chart"), {
 				  type: 'line',
 				  data: {
+					  	/* @todo use getOnBoardingSteps() instead */
 					    labels: ['0%', '20%', '40%', '50%', '70%', '90%', '99%', '100%'],
 					    
 					    datasets: parsedDatasetWeeklyAggregate.map(function(week, index) {
-					    	console.log(index);
 					    	return {
 					    		data: week,
 						        label: self.labelsStartDateWeek[index],
@@ -263,9 +290,11 @@ const CohortChart = Vue.component('cohort-chart',{
 		}
 	},
   	template:`  	
-  		<div class="wrapper charts">
-		  	<canvas id="line-chart" width="800" height="450"></canvas>
-		  	<cohort-table :dataSet="datasetWeeklyAggregate" :labels="labelsStartDateWeek"></cohort-table>
+  		<div class="wrapper chart-and-table">
+  			<div class="wrapper chart">
+  				<canvas id="line-chart" width="800" height="450"></canvas>
+  			</div>
+  			<weekly-cohort-table :dataSet="datasetWeeklyAggregate" :labels="labelsStartDateWeek" :onboardingSteps="onboardingSteps"></weekly-cohort-table>
   		</div>`
 });
 
@@ -277,7 +306,7 @@ const CohortChart = Vue.component('cohort-chart',{
 const vm = new Vue({
     el: '#app',
     components: {
-        'cohort-chart': CohortChart
+        'weekly-cohort-chart': WeeklyCohortChart
     },
     data: {
     	
