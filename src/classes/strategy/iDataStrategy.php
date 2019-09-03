@@ -12,8 +12,11 @@
 
 namespace Strategy;
 
-interface iDataStrategy
+if(!interface_exists('iDataStrategy'))
 {
-    public function setConnection(array $params): void;
-    public function select(array $params): array;
+    interface iDataStrategy
+    {
+        public function setConnection(array $params): void;
+        public function select(array $params): array;
+    }
 }

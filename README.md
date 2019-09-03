@@ -23,4 +23,5 @@ Via Composer:
 ## Endpoints
 * /private-api/get/retention-curve/weekly-cohorts
 
+Error message in case of no token is send to api.
 Error message in case of wrong endpoint.
