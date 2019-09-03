@@ -26,7 +26,6 @@ if(!class_exists('RestRetentionCurve'))
      * @version 1.0
      * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
      */
-    
     class RestRetentionCurve extends Rest
     {
         /**

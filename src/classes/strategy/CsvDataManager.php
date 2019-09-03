@@ -103,12 +103,12 @@ if(!class_exists('CsvDataManager'))
             if (($handle = fopen($this->filename, 'r')) !== FALSE) {
                 while (($row = fgetcsv($handle, 1000, $this->delimiter)) !== FALSE) {
                     if(!$header) {
+                        
                         $header = $row;
                     }
                     else {
-                        $combined = array_combine($header, $row);
                         
-                        array_push($resultSet, $combined);
+                        array_push($resultSet, array_combine($header, $row));
                     }
                 }
             }
