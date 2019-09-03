@@ -20,10 +20,10 @@ final class ContextTest extends TestCase
          * 
          */
         
-        $csvDataManager = new CsvDataManager();
-        $csvDataManager->setConnection(array(
+        $csvDataManager = new CsvDataManager(array(
             'filename' => 'data/export.csv',
-            'delimiter' => ';'));
+            'delimiter' => ';'
+        ));
         
         $context = new Context($csvDataManager);
         $resultSet = $context->getData(array('SELECT * FROM Onboarding'));

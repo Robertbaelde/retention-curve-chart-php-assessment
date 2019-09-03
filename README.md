@@ -5,6 +5,11 @@ Get insight of how users flow through the onboarding process.
 * Apache/2.4.25 (Debian)
 * PHP 7.1.20
 
+## Installation
+- Clone this repository on your local computer (Virtual hosting or WWW directory). 
+- Run the docker-compose up -d
+- You can access it via http://localhost (or your virtual host)
+
 ## PHPUnit 7.5.15
 Via Composer:
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/RetentionOnboardingTest.php

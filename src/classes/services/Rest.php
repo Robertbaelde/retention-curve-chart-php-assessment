@@ -97,6 +97,7 @@ if(!class_exists('Rest'))
             
             if ($this->isValidCall()) {
     
+                /* Call the method of the subclass that mathes with the converted endpoint */
                 return $this->sendResponse($this->{$this->classMethodToCall}($params));
             }
             

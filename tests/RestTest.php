@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 use \Services\Rest;
 use Services\RestRetentionCurve;
+use Services\Auth;
 
 require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -13,7 +14,7 @@ final class RestTest extends TestCase
     /**
      * @runInSeparateProcess
      */
-    public function testWrongRestClass(): void
+    public function test401Unauthorized(): void
     {
         /*
          * @note Run in separate mode allows me to test an API result without Headers error already sent message.
@@ -21,11 +22,14 @@ final class RestTest extends TestCase
         
         $endpoint = '/private-api/get-retention-curve-weekly-cohorts'; 
         
-        $rest = new Rest($endpoint);
+        $auth = new Auth();
+        $auth->setToken('');
+        
+        $rest = new Rest($auth, $endpoint);
         
         $resultSet = $rest->processAPI(array('foo' => true, 'pluto' => 'far'));
         
-        $this->assertEquals('{"foo":true,"pluto":"far"}', str_replace(' ', '', $resultSet));
+        $this->assertEquals('{"message-error":"401Unauthorized\/private-api\/get-retention-curve-weekly-cohorts"}', str_replace(' ', '', $resultSet));
     }
     
     /**
@@ -39,11 +43,14 @@ final class RestTest extends TestCase
         
         $endpoint = '/private-api/another-endpoint/whatever';
         
-        $rest = new Rest($endpoint);
+        $auth = new Auth();
+        $auth->setToken('eyJ0eXAiOiJQVFMiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiUU4zTUxQSk9KVkdQMlpOT0FTS0tHQUdIRUNSSFVETklSSzJDSTFGVVVMS1NJS04xIn0.QYRr8HzguAsK7XDOobd9i6_4aPluKYKMWZMX-GjyeKQ');
+        
+        $rest = new Rest($auth, $endpoint);
         
         $resultSet = $rest->processAPI(array('foo' => true, 'pluto' => 'far'));
         
-        $this->assertEquals('{"foo":true,"pluto":"far"}', str_replace(' ', '', $resultSet));
+        $this->assertEquals('{"message-error":"NoEndpoint\/private-api\/another-endpoint\/whatever"}', str_replace(' ', '', $resultSet));
     }
     
     /**
@@ -53,10 +60,13 @@ final class RestTest extends TestCase
     {
         $endpoint = '/private-api/get-retention-curve-weekly-cohorts';
         
-        $rest = new RestRetentionCurve($endpoint);
+        $auth = new Auth();
+        $auth->setToken('eyJ0eXAiOiJQVFMiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiUU4zTUxQSk9KVkdQMlpOT0FTS0tHQUdIRUNSSFVETklSSzJDSTFGVVVMS1NJS04xIn0.QYRr8HzguAsK7XDOobd9i6_4aPluKYKMWZMX-GjyeKQ');
+
+        $rest = new RestRetentionCurve($auth, $endpoint);
         
         $resultSet = $rest->processAPI(array('foo' => true, 'pluto' => 'far'));
         
-        $this->assertEquals('{"foo":true,"pluto":"far"}', str_replace(' ', '', $resultSet));
+        $this->assertEquals('{"weeks":[]}', str_replace(' ', '', $resultSet));
     }
 }
