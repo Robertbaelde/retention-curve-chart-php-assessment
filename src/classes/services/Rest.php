@@ -11,203 +11,207 @@
 
 namespace Services;
 
-/**
- * @name Rest
- * @description
- *
- * @author G.Maccario <g_maccario@hotmail.com>
- * @return
- */
-class Rest
+if(!class_exists('Rest'))
 {
     /**
-     * @property Auth $auth
-     *
-     */
-    protected $auth = null;
-    
-    /**
-     * @property bool $isValidCall
-     *
-     */
-    protected $isValidCall = false;
-    
-    /**
-     * @property string $method 
-     * (onlyl GET implemented)
-     * 
-     */
-    protected $method = 'GET';
-    
-    /**
-     * @property string $endpoint 
-     * (eg: /foo/process/1)
-     * 
-     */
-    protected $endpoint = '';
-
-    /**
-     * @property array $args
-     * 
-     */
-    protected $args = array();
-    
-    /**
-     * @property string $classMethodToCall
-     *
-     */
-    protected $classMethodToCall = '';
-    
-    /**
-     * @name __construct
-     *
-     * @partam Auth $auth
-     * @param string $endpoint
+     * @name Rest
+     * @description
      *
      * @author G.Maccario <g_maccario@hotmail.com>
      * @return
      */
-    public function __construct(Auth $auth, string $endpoint)
+    class Rest
     {
-        $this->auth = $auth;
+        /**
+         * @property Auth $auth
+         *
+         */
+        protected $auth = null;
         
-        $this->endpoint = $this->sanitizeInputs($endpoint);
-
-        $this->args = $this->setArgs();
+        /**
+         * @property bool $isValidCall
+         *
+         */
+        protected $isValidCall = false;
         
-        $this->classMethodToCall = $this->convertEndpointInMethodName($this->args);
-    }
+        /**
+         * @property string $method 
+         * (onlyl GET implemented)
+         * 
+         */
+        protected $method = 'GET';
+        
+        /**
+         * @property string $endpoint 
+         * (eg: /foo/process/1)
+         * 
+         */
+        protected $endpoint = '';
     
-    /**
-     * @name processAPI
-     *
-     * @param string $params
-     *
-     * @author G.Maccario <g_maccario@hotmail.com>
-     * @return string
-     */
-    public function processAPI(array $params) : string
-    {
-        if(!$this->auth->isActiveToken()) {
+        /**
+         * @property array $args
+         * 
+         */
+        protected $args = array();
+        
+        /**
+         * @property string $classMethodToCall
+         *
+         */
+        protected $classMethodToCall = '';
+        
+        /**
+         * @name __construct
+         *
+         * @partam Auth $auth
+         * @param string $endpoint
+         *
+         * @author G.Maccario <g_maccario@hotmail.com>
+         * @return
+         */
+        public function __construct(Auth $auth, string $endpoint)
+        {
+            $this->auth = $auth;
             
-            return $this->sendResponse(array("message-error" => "401 Unauthorized " . $this->endpoint), 401);
-        }
-        
-        if ($this->isValidCall()) {
-
-            return $this->sendResponse($this->{$this->classMethodToCall}($params));
-        }
-        
-        return $this->sendResponse(array("message-error" => "No Endpoint " . $this->endpoint), 404);
-    }
+            $this->endpoint = $this->sanitizeInputs($endpoint);
     
-    /**
-     * @name processAPI
-     *
-     * @author G.Maccario <g_maccario@hotmail.com>
-     * @return bool
-     */
-    public function isValidCall() : bool
-    {        
-        if (method_exists($this, $this->classMethodToCall)) {
+            $this->args = $this->setArgs();
             
-            $this->isValidCall = true;
+            $this->classMethodToCall = $this->convertEndpointInMethodName($this->args);
         }
         
-        return $this->isValidCall;
-    }
-    
-    /**
-     * @name convertEndpointInMethodName
-     *
-     * @param array $data
-     *
-     * @author G.Maccario <g_maccario@hotmail.com>
-     * @return string
-     */
-    private function convertEndpointInMethodName(array $data) : string
-    {
-        return lcfirst(join('', array_map(function($i){
-            return str_replace(' ', '', trim(ucwords(strtolower(str_replace('-', ' ', $i)))));
-        }, $data)));
-    }
-    
-    /**
-     * @name sanitizeInputs
-     *
-     * @param string $data
-     *
-     * @author G.Maccario <g_maccario@hotmail.com>
-     * @return string
-     */
-    private function sanitizeInputs(string $data) : string
-    {
-        /* 
-         * Treat any inputs as untrusted!
-         * */
-        return trim(strip_tags($data));
-    }
-    
-    
-    /**
-     * @name sendResponse
-     *
-     * @param array $data
-     * @param int $status
-     *
-     * @author G.Maccario <g_maccario@hotmail.com>
-     * @return string
-     */
-    private function sendResponse(array $data, int $status = 200) : string
-    {
-        /* Enable it if you want to allows restricted resources on a web page from another domain outside the domain */
-        //header("Access-Control-Allow-Orgin: *");
-        
-        header("Access-Control-Allow-Methods: GET");
-        header("Content-Type: application/json");
-        header("HTTP/1.1 " . $status . " " . $this->getRequestStatus($status));
-        
-        return json_encode($data);
-    }
-    
-    /**
-     * @name getRequestStatus
-     *
-     * @param int $code
-     *
-     * @author G.Maccario <g_maccario@hotmail.com>
-     * @return
-     */
-    private function getRequestStatus(int $code) : string
-    {
-        $status = array(
-            200 => 'OK',
-            401 => 'Unauthorized',
-            404 => 'Not Found',
-            405 => 'Method Not Allowed',
-            500 => 'Internal Server Error',
-        );
-        
-        return ($status[$code])?$status[$code]:$status[500];
-    }
-    
-    /**
-     * @name setArgs
-     *
-     * @author G.Maccario <g_maccario@hotmail.com>
-     * @return array
-     */
-    private function setArgs() : array
-    {
-        $args = array();
-        
-        if ($this->endpoint) {
+        /**
+         * @name processAPI
+         *
+         * @param string $params
+         *
+         * @author G.Maccario <g_maccario@hotmail.com>
+         * @return string
+         */
+        public function processAPI(array $params) : string
+        {
+            if(!$this->auth->isActiveToken()) {
+                
+                return $this->sendResponse(array("message-error" => "401 Unauthorized " . $this->endpoint), 401);
+            }
             
-            $args = explode('/', rtrim($this->endpoint, '/'));
-            array_shift($args);
-            array_shift($args);
+            if ($this->isValidCall()) {
+    
+                /* Call the method of the subclass that mathes with the converted endpoint */
+                return $this->sendResponse($this->{$this->classMethodToCall}($params));
+            }
+            
+            return $this->sendResponse(array("message-error" => "No Endpoint " . $this->endpoint), 404);
         }
         
-        return $args;
+        /**
+         * @name processAPI
+         *
+         * @author G.Maccario <g_maccario@hotmail.com>
+         * @return bool
+         */
+        public function isValidCall() : bool
+        {        
+            if (method_exists($this, $this->classMethodToCall)) {
+                
+                $this->isValidCall = true;
+            }
+            
+            return $this->isValidCall;
+        }
+        
+        /**
+         * @name convertEndpointInMethodName
+         *
+         * @param array $data
+         *
+         * @author G.Maccario <g_maccario@hotmail.com>
+         * @return string
+         */
+        private function convertEndpointInMethodName(array $data) : string
+        {
+            return lcfirst(join('', array_map(function($i){
+                return str_replace(' ', '', trim(ucwords(strtolower(str_replace('-', ' ', $i)))));
+            }, $data)));
+        }
+        
+        /**
+         * @name sanitizeInputs
+         *
+         * @param string $data
+         *
+         * @author G.Maccario <g_maccario@hotmail.com>
+         * @return string
+         */
+        private function sanitizeInputs(string $data) : string
+        {
+            /* 
+             * Treat any inputs as untrusted!
+             * */
+            return trim(strip_tags($data));
+        }
+        
+        
+        /**
+         * @name sendResponse
+         *
+         * @param array $data
+         * @param int $status
+         *
+         * @author G.Maccario <g_maccario@hotmail.com>
+         * @return string
+         */
+        private function sendResponse(array $data, int $status = 200) : string
+        {
+            /* Enable it if you want to allows restricted resources on a web page from another domain outside the domain */
+            //header("Access-Control-Allow-Orgin: *");
+            
+            header("Access-Control-Allow-Methods: GET");
+            header("Content-Type: application/json");
+            header("HTTP/1.1 " . $status . " " . $this->getRequestStatus($status));
+            
+            return json_encode($data);
+        }
+        
+        /**
+         * @name getRequestStatus
+         *
+         * @param int $code
+         *
+         * @author G.Maccario <g_maccario@hotmail.com>
+         * @return
+         */
+        private function getRequestStatus(int $code) : string
+        {
+            $status = array(
+                200 => 'OK',
+                401 => 'Unauthorized',
+                404 => 'Not Found',
+                405 => 'Method Not Allowed',
+                500 => 'Internal Server Error',
+            );
+            
+            return ($status[$code])?$status[$code]:$status[500];
+        }
+        
+        /**
+         * @name setArgs
+         *
+         * @author G.Maccario <g_maccario@hotmail.com>
+         * @return array
+         */
+        private function setArgs() : array
+        {
+            if ($this->endpoint) {
+                
+                $args = explode('/', rtrim($this->endpoint, '/'));
+                array_shift($args);
+                array_shift($args);
+                
+                return $args;
+            }
+            
+            return array();
+        }
     }
 }

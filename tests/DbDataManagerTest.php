@@ -14,8 +14,7 @@ final class DbDataManagerTest extends TestCase
      */
     public function testConnection(): void
     {
-        $dbDataManager = new DbDataManager();
-        $dbDataManager->setConnection(array(
+        $dbDataManager = new DbDataManager(array(
             'host' => 'localhost',
             'port' => '339',
             'dbname' => 'DatabaseName',
@@ -31,7 +30,14 @@ final class DbDataManagerTest extends TestCase
      */
     public function testSelect(): void
     {
-        $dbDataManager = new DbDataManager();
+        $dbDataManager = new DbDataManager(array(
+            'host' => 'localhost',
+            'port' => '339',
+            'dbname' => 'DatabaseName',
+            'username' => 'root',
+            'password' => 'Syui546FWE$&Fwuyf8wauyf-6u7yy'
+        ));
+        
         $resultSet = $dbDataManager->select(array('SELECT * FROM Onboarding'));
 
         $this->assertCount(1, $resultSet);

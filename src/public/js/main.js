@@ -14,81 +14,11 @@ const EventBus = new Vue();
  */
 
 /**
- * WeeklyCohortTable
- */
-const WeeklyCohortTable = Vue.component('weekly-cohort-table',{
-	components: {
-		
-	},
-	props: {
-		dataSet: {
-			type: Array,
-			required: true
-		},
-		labels: {
-			type: Array,
-			required: true
-		},
-		onboardingSteps: {
-			type: Array,
-			required: true
-		},
-	},
-	data(){
-		return {
-			steps: []
-		}
-	},
-	created() {
-		
-	},
-	mounted() {
-		
-	},
-	watch: {
-		
-	},
-	methods: {
-		
-	},
-	template:`  	
-  		<div class="col-sm-6 table">
-  			
-  			<p>Weekly cohort table</p>
-  			
-  			<div class="table-responsive">
-			  	<table>
-				    <thead class="thead-dark">
-				        <tr>
-				            <th scope="col">
-				            	<span>Cohort</span>
-				            </th>
-				            <th scope="col" v-for="step in onboardingSteps.keys()" v-if="onboardingSteps[step] === 0">
-				            	<span>{{ step }}%</span>
-				            </th>
-				        </tr>
-				    </thead>
-				    <tbody>
-				        <tr v-for="(row, index) in dataSet">
-				            <th scope="row">
-				            	<span>{{ labels[index] }}</span>
-				            </th>
-				            <td v-for="cell in row">
-				            	<span>{{ cell }}%</span>
-				            </td>
-				        </tr>
-				    </tbody>
-				</table>
-			</div>
-  		</div>`
-});
-
-/**
  * WeeklyCohortChart
  */
 const WeeklyCohortChart = Vue.component('weekly-cohort-chart',{
 	components: {
-		'weekly-cohort-table': WeeklyCohortTable
+		
 	},
 	props: {
 		
@@ -228,11 +158,12 @@ const WeeklyCohortChart = Vue.component('weekly-cohort-chart',{
 					    labels: ['0%', '20%', '40%', '50%', '70%', '90%', '99%', '100%'],
 					    
 					    datasets: parsedDatasetWeeklyAggregate.map(function(week, index) {
+
 					    	return {
 					    		data: week,
 						        label: self.labelsStartDateWeek[index],
 							    borderColor: self.getRandomColor(),
-							    fill: true
+							    fill: false
 					    	}
 					    })
 				  },
@@ -319,10 +250,9 @@ const WeeklyCohortChart = Vue.component('weekly-cohort-chart',{
 	},
   	template:`  	
   		<div class="row chart-and-table">
-  			<div class="col-sm-6 chart">
+  			<div class="col chart">
   				<canvas id="line-chart" width="800" height="450"></canvas>
   			</div>
-  			<weekly-cohort-table :dataSet="datasetWeeklyAggregate" :labels="labelsStartDateWeek" :onboardingSteps="onboardingSteps"></weekly-cohort-table>
   		</div>`
 });
 
@@ -349,7 +279,7 @@ const vm = new Vue({
     	setAuthCookie(){
     		/**
              * @note Save a cookie and use it instead of the input value. 
-             * @todo Set expires=Mon, 03 May 2021 20:47:11 UTC; 
+             * @todo Set expires=Mon, 03 Oct 2019 20:47:11 UTC; 
              */    		
        		document.cookie = `token=${this.token}; path=/`;
     	}

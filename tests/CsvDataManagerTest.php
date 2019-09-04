@@ -14,12 +14,10 @@ final class CsvDataManagerTest extends TestCase
      */
     public function testConnection(): void
     {
-        $csvDataManager = new CsvDataManager();
-        $csvDataManager->setConnection(array(
-            'filename' => 'data/export.csv', 
+        $csvDataManager = new CsvDataManager(array(
+            'filename' => 'data/export.csv',
             'delimiter' => ';'
         ));
-        
         $this->assertEquals('data/export.csv', $csvDataManager->getFilename()); 
     }
     
@@ -28,8 +26,7 @@ final class CsvDataManagerTest extends TestCase
      */
     public function testSelect(): void
     {
-        $csvDataManager = new CsvDataManager();
-        $csvDataManager->setConnection(array(
+        $csvDataManager = new CsvDataManager(array(
             'filename' => 'data/export.csv',
             'delimiter' => ';'
         ));
