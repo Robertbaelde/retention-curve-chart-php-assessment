@@ -11,7 +11,6 @@ Get insight of how users flow through the onboarding process.
 - You can access it via http://localhost (or your virtual host)
 
 ## PHPUnit 7.5.15
-Via Composer:
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/RetentionOnboardingTest.php
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/RetentionDayTest
 * ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/RetentionWeekTest.php
@@ -28,5 +27,5 @@ Via Composer:
 ## Endpoints
 * /private-api/get/retention-curve/weekly-cohorts
 
-Error message in case of no token is send to api.
-Error message in case of wrong endpoint.
+Error message in case of no token is send to api (401 Unauthorized).
+Error message in case of wrong endpoint (No Endpoint).
