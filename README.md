@@ -27,5 +27,5 @@ Get insight of how users flow through the onboarding process.
 ## Endpoints
 * /private-api/get/retention-curve/weekly-cohorts
 
-Error message in case of no token is send to api (401 Unauthorized).
-Error message in case of wrong endpoint (No Endpoint).
+- Error message in case of no token is send to api (401 Unauthorized).
+- Error message in case of wrong endpoint (No Endpoint).
